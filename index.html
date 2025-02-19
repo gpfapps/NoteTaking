@@ -22,22 +22,14 @@
 
         main {
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
         }
 
-        .sidebar {
-            width: 200px;
-            padding: 10px;
-            background: #ddd;
-            text-align: center;
-            display: none;
-        }
-
         .content {
-            flex: 1;
             max-width: 400px;
+            width: 100%;
         }
 
         .note-input {
@@ -45,6 +37,7 @@
             padding: 20px;
             margin: 20px auto;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
 
         .note-input input, .note-input textarea {
@@ -67,6 +60,7 @@
             padding: 10px;
             cursor: pointer;
             width: 100%;
+            border-radius: 5px;
         }
 
         button:hover {
@@ -82,8 +76,8 @@
             padding: 15px;
             margin: 10px auto;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            cursor: pointer;
+            border-radius: 5px;
+            width: 90%;
         }
 
         .note-card h3 {
@@ -106,60 +100,42 @@
         }
 
         /* Ad Styles */
-        .ad-header, .ad-footer, .ad-save {
-            background: #ccc;
-            padding: 10px;
+        .ad-container {
+            text-align: center;
             margin: 10px auto;
+            padding: 10px;
             width: 100%;
             max-width: 300px;
-            text-align: center;
-            font-size: 14px;
+            background: #f8f9fa;
             border-radius: 5px;
         }
 
-        /* Show sidebars only on desktop */
-        @media (min-width: 800px) {
-            .sidebar {
-                display: block;
-            }
-
-            main {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .content {
-                max-width: 500px;
-            }
-        }
-
-        /* Mobile Styling */
+        /* Mobile-Friendly Ads */
         @media (max-width: 600px) {
-            .note-input, .note-card {
-                width: 90%;
-            }
-
-            .ad-header, .ad-footer, .ad-save {
+            .ad-container {
                 max-width: 100%;
                 padding: 15px;
             }
+
+            .note-input, .note-card {
+                width: 95%;
+            }
         }
+
     </style>
 </head>
 <body>
 
     <header>
         <h1>Note-Taking App</h1>
-        <div class="ad-header">[        <a rel="sponsored"
-           href="https://invideo.sjv.io/c/2073836/2210626/12258" target="_top" id="2210626">
-<img src="//a.impactradius-go.com/display-ad/12258-2210626" border="0" alt="" width="936" height="120"/></a><img height="0" width="0" src="https://imp.pxf.io/i/2073836/2210626/12258" style="position:absolute;visibility:hidden;" border="0" />]</div>
+        <div class="ad-container">
+            <a rel="sponsored" href="https://invideo.sjv.io/c/2073836/2210626/12258" target="_top">
+                <img src="//a.impactradius-go.com/display-ad/12258-2210626" border="0" alt="Ad" style="width:100%; max-width:300px;">
+            </a>
+        </div>
     </header>
 
     <main>
-        <aside class="sidebar">[        <a rel="sponsored"
-           href="https://namecheap.pxf.io/c/2073836/1187125/5618" target="_top" id="1187125">
-<img src="//a.impactradius-go.com/display-ad/5618-1187125" border="0" alt="" width="336" height="280"/></a><img height="0" width="0" src="https://namecheap.pxf.io/i/2073836/1187125/5618" style="position:absolute;visibility:hidden;" border="0" />]</aside>
-
         <section class="content">
             <section class="note-input">
                 <h2>Create a New Note</h2>
@@ -167,9 +143,11 @@
                 <textarea id="note-content" placeholder="Write your note here..."></textarea>
                 <input type="color" id="note-color" value="#ffffff">
                 <button id="save-note">Save Note</button>
-                <div class="ad-save">[        <a rel="sponsored"
-           href="https://invideo.sjv.io/c/2073836/2210614/12258" target="_top" id="2210614">
-<img src="//a.impactradius-go.com/display-ad/12258-2210614" border="0" alt="" width="936" height="120"/></a><img height="0" width="0" src="https://imp.pxf.io/i/2073836/2210614/12258" style="position:absolute;visibility:hidden;" border="0" />]</div>
+                <div class="ad-container">
+                    <a rel="sponsored" href="https://invideo.sjv.io/c/2073836/2210614/12258" target="_top">
+                        <img src="//a.impactradius-go.com/display-ad/12258-2210614" border="0" alt="Ad" style="width:100%; max-width:300px;">
+                    </a>
+                </div>
             </section>
 
             <section class="note-dashboard">
@@ -177,16 +155,14 @@
                 <div id="notes-container"></div>
             </section>
         </section>
-
-        <aside class="sidebar">[        <a rel="sponsored"
-           href="https://namecheap.pxf.io/c/2073836/1187101/5618" target="_top" id="1187101">
-<img src="//a.impactradius-go.com/display-ad/5618-1187101" border="0" alt="" width="300" height="250"/></a><img height="0" width="0" src="https://namecheap.pxf.io/i/2073836/1187101/5618" style="position:absolute;visibility:hidden;" border="0" />]</aside>
     </main>
 
     <footer>
-        <div class="ad-footer">[        <a rel="sponsored"
-           href="https://1.envato.market/c/2073836/829436/4415" target="_top" id="829436">
-<img src="//a.impactradius-go.com/display-ad/4415-829436" border="0" alt="" width="970" height="250"/></a><img height="0" width="0" src="https://1.envato.market/i/2073836/829436/4415" style="position:absolute;visibility:hidden;" border="0" />]</div>
+        <div class="ad-container">
+            <a rel="sponsored" href="https://1.envato.market/c/2073836/829436/4415" target="_top">
+                <img src="//a.impactradius-go.com/display-ad/4415-829436" border="0" alt="Ad" style="width:100%; max-width:300px;">
+            </a>
+        </div>
         <p>&copy; 2025 Note-Taking App</p>
     </footer>
 
@@ -202,7 +178,6 @@
                 notesContainer.innerHTML = "";
                 const notes = JSON.parse(localStorage.getItem("notes")) || [];
 
-                // Add a demo note if there are no saved notes
                 if (notes.length === 0) {
                     notes.push({ title: "Demo Note", content: "This is a sample note!", color: "#FFD700" });
                     localStorage.setItem("notes", JSON.stringify(notes));
