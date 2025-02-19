@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Note Taking App</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    header, footer {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px;
+        text-align: center;
+    }
+    .container {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+    }
+    .sidebar {
+        background-color: #f4f4f4;
+        padding: 10px;
+        text-align: center;
+    }
+    .main-content {
+        flex: 1;
+        padding: 10px;
+    }
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+    .save-btn {
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+    .save-btn:hover {
+        background-color: #45a049;
+    }
+    .ad-slot {
+        background-color: #f4f4f4;
+        padding: 10px;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .note {
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+    }
+    .note-title {
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .note-content {
+        display: none;
+        margin-top: 10px;
+    }
+    .note-actions {
+        margin-top: 10px;
+    }
+    .note-actions button {
+        margin-right: 5px;
+        padding: 5px 10px;
+        border: none;
+        cursor: pointer;
+    }
+    .edit-btn {
+        background-color: #ffc107;
+        color: white;
+    }
+    .delete-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+    .color-picker {
+        margin-top: 10px;
+    }
+    @media (min-width: 768px) {
+        .container {
+            flex-direction: row;
+        }
+        .sidebar {
+            width: 200px;
+        }
+        .main-content {
+            flex: 1;
+        }
+    }
+</style>
+</head>
+<body>
+    <header>
+        <h1>Note Taking App</h1>
+        <div class="sidebar">
+            <h3>Ad Space</h3>
+            <p>Header Ad</p>
+        </div>
+    </header>
+    <div class="container">
+        <div class="main-content">
+            <input type="text" id="noteTitle" placeholder="Enter note title...">
+            <textarea id="noteContent" placeholder="Start typing your note here..."></textarea>
+            <div class="color-picker">
+                <label for="noteColor">Choose note color:</label>
+                <input type="color" id="noteColor" value="#f9f9f9">
+            </div>
+            <button class="save-btn" onclick="saveNote()">Save Note</button>
+            <div class="ad-slot">
+                <h3>Ad Space</h3>
+                <p>Ad close to Save Button</p>
+            </div>
+            <div id="notesDashboard"></div>
+        </div>
+    </div>
+    <footer>
+        <div class="sidebar">
+            <h3>Ad Space</h3>
+            <p>Footer Ad</p>
+        </div>
+        <p>&copy; 2023 Note Taking App</p>
+    </footer>
+    <script>
+        function saveNote() {
+            const noteTitle = document.getElementById('noteTitle').value;
+            const noteContent = document.getElementById('noteContent').value;
+            const noteColor = document.getElementById('noteColor').value;
+
+            if (noteTitle.trim() === "" || noteContent.trim() === "") {
+                alert("Title and content cannot be empty!");
+                return;
+            }
+
+            const note = {
+                id: Date.now(),
+                title: noteTitle,
+                content: noteContent,
+                color: noteColor
+            };
+
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes.push(note);
+            localStorage.setItem('notes', JSON.stringify(notes));
+
+            document.getElementById('noteTitle').value = "";
+            document.getElementById('noteContent').value = "";
+            displayNotes();
+        }
+
+        function displayNotes() {
+            const notes = JSON.parse(localStorage.getItem('notes')) || [];
+            const dashboard = document.getElementById('notesDashboard');
+            dashboard.innerHTML = "";
+
+            notes.forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'note';
+                noteElement.style.backgroundColor = note.color;
+                noteElement.innerHTML = `
+                    <div class="note-title" onclick="toggleNoteContent(${note.id})">${note.title}</div>
+                    <div class="note-content" id="content-${note.id}">${note.content}</div>
+                    <div class="note-actions">
+                        <button class="edit-btn" onclick="editNote(${note.id})">Edit</button>
+                        <button class="delete-btn" onclick="deleteNote(${note.id})">Delete</button>
+                    </div>
+                `;
+                dashboard.appendChild(noteElement);
+            });
+        }
+
+        function toggleNoteContent(id) {
+            const contentElement = document.getElementById(`content-${id}`);
+            contentElement.style.display = contentElement.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function editNote(id) {
+            const notes = JSON.parse(localStorage.getItem('notes')) || [];
+            const note = notes.find(note => note.id === id);
+            const newTitle = prompt("Edit your note title:", note.title);
+            const newContent = prompt("Edit your note content:", note.content);
+            const newColor = prompt("Edit your note color (hex format):", note.color);
+
+            if (newTitle !== null && newContent !== null && newColor !== null) {
+                note.title = newTitle;
+                note.content = newContent;
+                note.color = newColor;
+                localStorage.setItem('notes', JSON.stringify(notes));
+                displayNotes();
+            }
+        }
+
+        function deleteNote(id) {
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            notes = notes.filter(note => note.id !== id);
+            localStorage.setItem('notes', JSON.stringify(notes));
+            displayNotes();
+        }
+
+        window.onload = displayNotes;
+    </script>
+</body>
+</html>
