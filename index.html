@@ -20,23 +20,29 @@
             text-align: center;
         }
 
-        .ad-header, .ad-footer {
-            background: #ccc;
-            padding: 10px;
-            margin: 10px auto;
-            width: 200px;
-            text-align: center;
-            font-size: 14px;
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
         }
 
-        main {
-            padding: 20px;
+        .sidebar {
+            width: 200px;
+            padding: 10px;
+            background: #ddd;
+            text-align: center;
+            display: none;
+        }
+
+        .content {
+            flex: 1;
+            max-width: 400px;
         }
 
         .note-input {
             background: white;
             padding: 20px;
-            max-width: 400px;
             margin: 20px auto;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
@@ -65,13 +71,6 @@
 
         button:hover {
             background: #218838;
-        }
-
-        .ad-save {
-            background: #ccc;
-            padding: 10px;
-            margin-top: 15px;
-            text-align: center;
         }
 
         .note-dashboard {
@@ -106,9 +105,43 @@
             background: #ffc107;
         }
 
+        /* Ad Styles */
+        .ad-header, .ad-footer, .ad-save {
+            background: #ccc;
+            padding: 10px;
+            margin: 10px auto;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        /* Show sidebars only on desktop */
+        @media (min-width: 800px) {
+            .sidebar {
+                display: block;
+            }
+
+            main {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .content {
+                max-width: 500px;
+            }
+        }
+
+        /* Mobile Styling */
         @media (max-width: 600px) {
             .note-input, .note-card {
                 width: 90%;
+            }
+
+            .ad-header, .ad-footer, .ad-save {
+                max-width: 100%;
+                padding: 15px;
             }
         }
     </style>
@@ -121,24 +154,30 @@
     </header>
 
     <main>
-        <section class="note-input">
-            <h2>Create a New Note</h2>
-            <input type="text" id="note-title" placeholder="Note Title">
-            <textarea id="note-content" placeholder="Write your note here..."></textarea>
-            <input type="color" id="note-color" value="#ffffff">
-            <button id="save-note">Save Note</button>
-            <div class="ad-save">[Ad Slot]</div>
+        <aside class="sidebar">[Sidebar Ad]</aside>
+
+        <section class="content">
+            <section class="note-input">
+                <h2>Create a New Note</h2>
+                <input type="text" id="note-title" placeholder="Note Title">
+                <textarea id="note-content" placeholder="Write your note here..."></textarea>
+                <input type="color" id="note-color" value="#ffffff">
+                <button id="save-note">Save Note</button>
+                <div class="ad-save">[Ad Slot]</div>
+            </section>
+
+            <section class="note-dashboard">
+                <h2>Saved Notes</h2>
+                <div id="notes-container"></div>
+            </section>
         </section>
 
-        <section class="note-dashboard">
-            <h2>Saved Notes</h2>
-            <div id="notes-container"></div>
-        </section>
+        <aside class="sidebar">[Sidebar Ad]</aside>
     </main>
 
     <footer>
-        <p>&copy; 2025 Note-Taking App</p>
         <div class="ad-footer">[Ad Slot]</div>
+        <p>&copy; 2025 Note-Taking App</p>
     </footer>
 
     <script>
@@ -152,6 +191,12 @@
             function loadNotes() {
                 notesContainer.innerHTML = "";
                 const notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+                // Add a demo note if there are no saved notes
+                if (notes.length === 0) {
+                    notes.push({ title: "Demo Note", content: "This is a sample note!", color: "#FFD700" });
+                    localStorage.setItem("notes", JSON.stringify(notes));
+                }
 
                 notes.forEach((note, index) => {
                     const noteCard = document.createElement("div");
@@ -223,8 +268,6 @@
             }
 
             function deleteNote(index) {
-                if (!confirm("Are you sure you want to delete this note?")) return;
-
                 const notes = JSON.parse(localStorage.getItem("notes")) || [];
                 notes.splice(index, 1);
                 localStorage.setItem("notes", JSON.stringify(notes));
