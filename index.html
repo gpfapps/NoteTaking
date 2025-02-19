@@ -27,8 +27,15 @@
             padding: 20px;
         }
 
+        .sidebar {
+            background: #ddd;
+            padding: 10px;
+            text-align: center;
+            display: none; /* Hidden by default on mobile */
+        }
+
         .content {
-            max-width: 400px;
+            max-width: 500px;
             width: 100%;
         }
 
@@ -37,7 +44,7 @@
             padding: 20px;
             margin: 20px auto;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
+            width: 100%;
         }
 
         .note-input input, .note-input textarea {
@@ -60,7 +67,6 @@
             padding: 10px;
             cursor: pointer;
             width: 100%;
-            border-radius: 5px;
         }
 
         button:hover {
@@ -76,8 +82,8 @@
             padding: 15px;
             margin: 10px auto;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            width: 90%;
+            width: 100%;
+            cursor: pointer;
         }
 
         .note-card h3 {
@@ -99,43 +105,69 @@
             background: #ffc107;
         }
 
-        /* Ad Styles */
-        .ad-container {
-            text-align: center;
-            margin: 10px auto;
+        /* Advertisement Styling */
+        .ad-header, .ad-footer, .ad-save {
+            background: #ccc;
             padding: 10px;
+            margin: 10px auto;
             width: 100%;
-            max-width: 300px;
-            background: #f8f9fa;
+            text-align: center;
+            font-size: 14px;
             border-radius: 5px;
         }
 
-        /* Mobile-Friendly Ads */
-        @media (max-width: 600px) {
-            .ad-container {
-                max-width: 100%;
-                padding: 15px;
+        /* Desktop Layout */
+        @media (min-width: 800px) {
+            main {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+                max-width: 1200px;
+                margin: 0 auto;
             }
 
-            .note-input, .note-card {
-                width: 95%;
+            .sidebar {
+                display: block;
+                width: 250px;
+            }
+
+            .content {
+                flex: 1;
+                max-width: 600px;
             }
         }
 
+        /* Mobile Styling */
+        @media (max-width: 600px) {
+            .note-input, .note-card {
+                width: 90%;
+            }
+
+            .ad-header, .ad-footer, .ad-save {
+                max-width: 100%;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Note-Taking App</h1>
-        <div class="ad-container">
+        <div class="ad-header">
             <a rel="sponsored" href="https://invideo.sjv.io/c/2073836/2210626/12258" target="_top">
-                <img src="//a.impactradius-go.com/display-ad/12258-2210626" border="0" alt="Ad" style="width:100%; max-width:300px;">
+                <img src="//a.impactradius-go.com/display-ad/12258-2210626" border="0" alt="Ad" width="100%" />
             </a>
         </div>
     </header>
 
     <main>
+        <aside class="sidebar">
+            <a rel="sponsored" href="https://namecheap.pxf.io/c/2073836/1187125/5618" target="_top">
+                <img src="//a.impactradius-go.com/display-ad/5618-1187125" border="0" alt="Sidebar Ad" width="100%" />
+            </a>
+        </aside>
+
         <section class="content">
             <section class="note-input">
                 <h2>Create a New Note</h2>
@@ -143,9 +175,9 @@
                 <textarea id="note-content" placeholder="Write your note here..."></textarea>
                 <input type="color" id="note-color" value="#ffffff">
                 <button id="save-note">Save Note</button>
-                <div class="ad-container">
+                <div class="ad-save">
                     <a rel="sponsored" href="https://invideo.sjv.io/c/2073836/2210614/12258" target="_top">
-                        <img src="//a.impactradius-go.com/display-ad/12258-2210614" border="0" alt="Ad" style="width:100%; max-width:300px;">
+                        <img src="//a.impactradius-go.com/display-ad/12258-2210614" border="0" alt="Ad" width="100%" />
                     </a>
                 </div>
             </section>
@@ -155,12 +187,18 @@
                 <div id="notes-container"></div>
             </section>
         </section>
+
+        <aside class="sidebar">
+            <a rel="sponsored" href="https://namecheap.pxf.io/c/2073836/1187101/5618" target="_top">
+                <img src="//a.impactradius-go.com/display-ad/5618-1187101" border="0" alt="Sidebar Ad" width="100%" />
+            </a>
+        </aside>
     </main>
 
     <footer>
-        <div class="ad-container">
+        <div class="ad-footer">
             <a rel="sponsored" href="https://1.envato.market/c/2073836/829436/4415" target="_top">
-                <img src="//a.impactradius-go.com/display-ad/4415-829436" border="0" alt="Ad" style="width:100%; max-width:300px;">
+                <img src="//a.impactradius-go.com/display-ad/4415-829436" border="0" alt="Ad" width="100%" />
             </a>
         </div>
         <p>&copy; 2025 Note-Taking App</p>
@@ -191,28 +229,15 @@
                     const noteHeader = document.createElement("h3");
                     noteHeader.textContent = note.title;
                     noteHeader.onclick = () => {
-                        noteContentDiv.style.display = 
-                            noteContentDiv.style.display === "block" ? "none" : "block";
+                        noteContentDiv.style.display = noteContentDiv.style.display === "block" ? "none" : "block";
                     };
 
                     const noteContentDiv = document.createElement("div");
                     noteContentDiv.classList.add("note-content");
                     noteContentDiv.textContent = note.content;
 
-                    const editBtn = document.createElement("button");
-                    editBtn.textContent = "Edit";
-                    editBtn.classList.add("edit");
-                    editBtn.onclick = () => editNote(index);
-
-                    const deleteBtn = document.createElement("button");
-                    deleteBtn.textContent = "Delete";
-                    deleteBtn.onclick = () => deleteNote(index);
-
                     noteCard.appendChild(noteHeader);
                     noteCard.appendChild(noteContentDiv);
-                    noteCard.appendChild(editBtn);
-                    noteCard.appendChild(deleteBtn);
-
                     notesContainer.appendChild(noteCard);
                 });
             }
@@ -231,34 +256,8 @@
                 notes.push({ title, content, color });
                 localStorage.setItem("notes", JSON.stringify(notes));
 
-                noteTitle.value = "";
-                noteContent.value = "";
-                noteColor.value = "#ffffff";
-
                 loadNotes();
             });
-
-            function editNote(index) {
-                const notes = JSON.parse(localStorage.getItem("notes")) || [];
-                const note = notes[index];
-
-                noteTitle.value = note.title;
-                noteContent.value = note.content;
-                noteColor.value = note.color;
-
-                notes.splice(index, 1);
-                localStorage.setItem("notes", JSON.stringify(notes));
-
-                loadNotes();
-            }
-
-            function deleteNote(index) {
-                const notes = JSON.parse(localStorage.getItem("notes")) || [];
-                notes.splice(index, 1);
-                localStorage.setItem("notes", JSON.stringify(notes));
-
-                loadNotes();
-            }
 
             loadNotes();
         });
